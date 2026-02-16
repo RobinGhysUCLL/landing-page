@@ -22,7 +22,7 @@ Open [http://localhost:3000](http://localhost:3000) in je browser.
 
 ## Deployment
 
-De applicatie wordt automatisch gedeployed bij een push naar de master branch via GitHub Actions. Het deployment proces gebruikt:
+De applicatie wordt automatisch gedeployed bij een push naar de main branch via GitHub Actions. Het deployment proces gebruikt:
 
 - Multi-stage Docker build voor geoptimaliseerde image size
 - Zero-downtime deployment strategie
