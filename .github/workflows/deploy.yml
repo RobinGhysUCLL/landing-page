@@ -1,0 +1,29 @@
+name: Deploy to Server
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to server via SSH
+        uses: appleboy/ssh-action@v1.1.0
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.PRIVATE_KEY }}
+          port: ${{ secrets.PORT }}
+          script: |
+            cd /opt/websites/landing-page
+
+            echo "Pulling latest changes..."
+            git pull
+
+            echo "running start script..."
+            ./start.sh
+        env:
+          ANSIBLE_HOST_KEY_CHECKING: false

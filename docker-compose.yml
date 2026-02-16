@@ -1,0 +1,14 @@
+version: "3.9"
+
+services:
+  web:
+    build: .
+    container_name: robinghys-landing-page-${BUILD_NUMBER:-1}
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:3512"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    ports:
+      - "3512:3000"
+    restart: always
