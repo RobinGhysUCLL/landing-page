@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import {
   Github,
   Linkedin,
@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 
-export default function Page() {
+function PageContent() {
   const [isDark, setIsDark] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [siteName, setSiteName] = useState<string | null>(null);
@@ -34,7 +34,7 @@ export default function Page() {
     if (site) {
       setSiteName(site);
     }
-  }, []);
+  }, [searchParams]);
 
   const toggleTheme = () => {
     const newDark = !isDark;
@@ -47,6 +47,7 @@ export default function Page() {
       localStorage.setItem("theme", "light");
     }
   };
+
   const contactLinks = [
     {
       name: "GitHub",
@@ -295,13 +296,6 @@ export default function Page() {
               );
             })}
           </div>
-
-          {/* <a
-            href={contactLinks.find((l) => l.name === "Email")?.url || "#"}
-            className="inline-block px-6 sm:px-8 py-3 rounded-lg bg-primary text-primary-foreground font-semibold hover:shadow-lg transition-all duration-300 active:scale-95 text-sm sm:text-base"
-          >
-            Stuur me een email
-          </a> */}
         </div>
       </section>
 
@@ -334,5 +328,13 @@ export default function Page() {
         </div>
       </footer>
     </div>
+  );
+}
+
+export default function Page() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-background" />}>
+      <PageContent />
+    </Suspense>
   );
 }
