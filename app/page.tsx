@@ -10,10 +10,13 @@ import {
   Moon,
   Sun,
 } from "lucide-react";
+import { useSearchParams } from "next/navigation";
 
 export default function Page() {
   const [isDark, setIsDark] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [siteName, setSiteName] = useState<string | null>(null);
+  const searchParams = useSearchParams();
 
   useEffect(() => {
     setMounted(true);
@@ -24,6 +27,12 @@ export default function Page() {
     setIsDark(isDarkMode);
     if (isDarkMode) {
       document.documentElement.classList.add("dark");
+    }
+
+    // Haal 'site' parameter uit URL (bijv. ?site=portfolio)
+    const site = searchParams.get("site");
+    if (site) {
+      setSiteName(site);
     }
   }, []);
 
@@ -90,20 +99,26 @@ export default function Page() {
       </div>
 
       {/* Error Banner */}
-      <div className="w-full bg-red-50 dark:bg-red-950/20 border-b border-red-200 dark:border-red-900/40 px-4 py-6 sm:px-6 lg:px-8">
+      <div className="w-full bg-gradient-to-r from-red-50 via-orange-50 to-red-50 dark:from-red-950/30 dark:via-orange-950/20 dark:to-red-950/30 border-b-2 border-red-300 dark:border-red-800 px-4 py-8 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-5xl">
-          <div className="flex flex-col sm:flex-row items-start gap-4">
-            <AlertCircle className="h-8 w-8 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
+          <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6">
+            <div className="p-3 rounded-full bg-red-100 dark:bg-red-900/40 flex-shrink-0">
+              <AlertCircle className="h-6 w-6 sm:h-7 sm:w-7 text-red-600 dark:text-red-400" />
+            </div>
             <div className="flex-1">
-              <h1 className="text-2xl sm:text-3xl font-bold text-red-900 dark:text-red-100 mb-2">
-                De website die u probeerde te bereiken staat momenteel niet
-                online
+              <h1 className="text-2xl sm:text-3xl font-extrabold text-red-950 dark:text-red-50 mb-3 leading-tight">
+                {siteName
+                  ? `${siteName} is tijdelijk niet bereikbaar`
+                  : "Deze website is momenteel niet bereikbaar"}
               </h1>
-              <p className="text-red-800 dark:text-red-200 text-base sm:text-lg leading-relaxed">
-                Ik ben aan het werken aan het herstellen van mijn services. Kunt
-                u via één van de contactkanalen hieronder contact met mij
-                opnemen?
+              <p className="text-base sm:text-lg text-red-900 dark:text-red-100 leading-relaxed mb-4">
+                De service die je probeert te bereiken is tijdelijk offline. We
+                werken eraan om dit zo snel mogelijk op te lossen.
               </p>
+              <div className="flex items-center gap-2 text-sm text-red-800 dark:text-red-200">
+                <span className="font-semibold">Hulp nodig?</span>
+                <span>Contacteer me via een van onderstaande kanalen</span>
+              </div>
             </div>
           </div>
         </div>
