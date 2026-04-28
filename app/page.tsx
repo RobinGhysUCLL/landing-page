@@ -167,7 +167,7 @@ function PageContent() {
                       }}
                     >
                       <img
-                        src="/placeholder.svg"
+                        src="/picture-robin.png"
                         alt="Robin Ghys"
                         className="w-full h-full object-cover"
                         style={{
